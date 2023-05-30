@@ -128,6 +128,34 @@ class Expo
     }
 
     /**
+     * Send a notification via the Expo Push Notifications Api.
+     *
+     * @param string $token
+     * @param array $data
+     * @param bool $debug
+     *
+     * @throws ExpoException
+     * @throws UnexpectedResponseException
+     *
+     * @return array|bool
+     */
+    public function notifySingle($token, array $data, $debug = false)
+    {
+
+
+        $postData[] = $data + ['to' => $token];
+        
+
+        $ch = $this->prepareCurl();
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+
+        $response = $this->executeCurl($ch);
+
+        return $response;
+    }
+
+    /**
      * Determines if the request we sent has failed completely
      *
      * @param array $response
